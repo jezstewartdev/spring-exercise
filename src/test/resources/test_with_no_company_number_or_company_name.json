@@ -1,0 +1,10 @@
+{
+	"url": "/companies",
+	"expectedStatus": 422,
+	"request": {
+	},
+	"expectedResponse": {
+		"error":"Either companyNumber or companyName must be populated"
+	},
+	"mocks": []
+}

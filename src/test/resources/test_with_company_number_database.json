@@ -1,0 +1,73 @@
+{
+	"url": "/companies",
+	"expectedStatus": 200,
+	"request": {
+		"companyNumber": "12345678"
+	},
+	"expectedResponse": {
+		"total_results": 1,
+		"items": [
+			{
+				"company_number": "12345678",
+				"company_type": "ltd",
+				"title": "TRUNARRATIVE LTD",
+				"company_status": "dissolved",
+				"date_of_creation": "2016-06-20",
+				"address": {
+					"locality": "Cardiff",
+					"postal_code": "CF11 0SN",
+					"premises": "Global Reach",
+					"address_line_1": "Dunleavy Drive",
+					"country": "United Kingdom"
+				},
+				"officers": [
+					{
+						"name": "RE SECRETARIES LIMITED",
+						"officer_role": "corporate-secretary",
+						"appointed_on": "2021-08-25",
+						"address": {
+							"locality": "London",
+							"postal_code": "WC2N 5JR",
+							"premises": "1-3",
+							"address_line_1": "Strand",
+							"country": "England"
+						}
+					},
+					{
+						"name": "ELLIOT, Stephen",
+						"officer_role": "director",
+						"appointed_on": "2021-09-14",
+						"address": {
+							"locality": "Cardiff",
+							"postal_code": "CF11 0SN",
+							"premises": "Global Reach",
+							"address_line_1": "Dunleavy Drive",
+							"country": "United Kingdom"
+						}
+					},
+					{
+						"name": "KELSEY, Mark Vickers",
+						"officer_role": "director",
+						"appointed_on": "2021-08-25",
+						"address": {
+							"locality": "Sutton",
+							"postal_code": "SM2 5AS",
+							"premises": "Quadrant House",
+							"address_line_1": "The Quadrant",
+							"country": "United Kingdom"
+						}
+					}
+				]
+			}
+		]
+	},
+	"mocks": [
+		{
+			"url": "/TruProxyAPI/rest/Companies/v1/Search?Query=12345678",
+			"response": {
+				"page_number": 1,
+				"kind": "search#companies"
+			}
+		}
+	]
+}

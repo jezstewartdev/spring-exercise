@@ -1,0 +1,19 @@
+{
+	"url": "/companies",
+	"expectedStatus": 200,
+	"request": {
+		"companyNumber": "23456789"
+	},
+	"expectedResponse": {
+		"total_results": 0
+	},
+	"mocks": [
+		{
+			"url": "/TruProxyAPI/rest/Companies/v1/Search?Query=23456789",
+			"response": {
+				"page_number": 1,
+				"kind": "search#companies"
+			}
+		}
+	]
+}
