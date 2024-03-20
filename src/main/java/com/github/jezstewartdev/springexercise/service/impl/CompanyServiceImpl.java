@@ -35,6 +35,8 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Value("${api.company.officers.url}")
 	private String companyOfficersUrl;
+	
+	private ModelMapper modelMapper = new ModelMapper();
 
 	@Autowired
 	private CompanyRepository companyRepository;
@@ -45,13 +47,11 @@ public class CompanyServiceImpl implements CompanyService {
 	@Autowired
 	private HttpEntity<String> httpEntity;
 
-	@Autowired
-	private ModelMapper modelMapper;
-
 	@Override
 	public CompanyLookupResponse getCompanies(CompanyLookupRequest request) {
 
-		String searchTerm = StringUtils.hasLength(request.getCompanyNumber()) ? request.getCompanyNumber() : request.getCompanyName();
+		String searchTerm = StringUtils.hasLength(request.getCompanyNumber()) ? request.getCompanyNumber()
+				: request.getCompanyName();
 
 		if (StringUtils.hasLength(request.getCompanyNumber())) {
 			Optional<Company> company = companyRepository.findById(request.getCompanyNumber());
@@ -60,7 +60,7 @@ public class CompanyServiceImpl implements CompanyService {
 			}
 		}
 
-		CompanyLookupResponse response = getCompanyLookupResponseFromApi(searchTerm).getBody();
+		CompanyLookupResponse response = getCompanyLookupResponseFromApi(searchTerm);
 
 		if (response.getItems() != null) {
 			for (CompanyDto companyDto : response.getItems()) {
@@ -82,6 +82,7 @@ public class CompanyServiceImpl implements CompanyService {
 	private Company createCompanyEntity(CompanyDto companyDto) {
 		Company companyEntity = modelMapper.map(companyDto, Company.class);
 		companyEntity.getOfficers().forEach(officer -> officer.setCompany(createForeignKey(companyDto)));
+		System.out.println(companyEntity.toString());
 		return companyEntity;
 	}
 
@@ -91,9 +92,9 @@ public class CompanyServiceImpl implements CompanyService {
 		return company;
 	}
 
-	private ResponseEntity<CompanyLookupResponse> getCompanyLookupResponseFromApi(String searchTerm) {
+	private CompanyLookupResponse getCompanyLookupResponseFromApi(String searchTerm) {
 		return restTemplate.exchange(String.format("%s%s", host, companySearchUrl), HttpMethod.GET, httpEntity,
-				CompanyLookupResponse.class, searchTerm);
+				CompanyLookupResponse.class, searchTerm).getBody();
 	}
 
 	private List<Officer> getOfficersFromApi(String companyNumber) {

@@ -25,16 +25,16 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.jezstewartdev.springexercise.pojo.TestParameters;
+import com.github.jezstewartdev.springexercise.scenario.Scenario;
 import com.github.tomakehurst.wiremock.client.WireMock;
 import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 
 @ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
-@WireMockTest(httpPort = 8080)
+@WireMockTest(httpPort = 8093)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class IntegrationTestCompanyControllerIntegration {
+class IntegrationTestCompanyController {
 
 	@Autowired
 	private MockMvc mvc;
@@ -68,6 +68,13 @@ class IntegrationTestCompanyControllerIntegration {
 	}
 	
 	@Test
+	void requestWithCompanyNameShouldReturnListOfCompanies() throws Exception {
+
+		performTest("test_with_company_name.json");
+		
+	}
+	
+	@Test
 	void requestWithNoCompanyNumberOrCompanyNameReturns422() throws Exception {
 
 		performTest("test_with_no_company_number_or_company_name.json");
@@ -83,38 +90,38 @@ class IntegrationTestCompanyControllerIntegration {
 
 	private void performTest(String testFileName) throws IOException, JsonProcessingException, JsonMappingException, Exception {
 		
-		TestParameters testParameters = createTestParameters(testFileName);
+		Scenario scenario = createScenario(testFileName);
 
-		createWireMocks(testParameters);
+		createWireMocks(scenario);
 
-		sendRequest(testParameters);
+		sendRequest(scenario);
 		
 	}
 
-	private void sendRequest(TestParameters testParameters) throws Exception {
-		mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get(testParameters.getUrl())
-				.contentType(MediaType.APPLICATION_JSON).content(testParameters.getRequest().toString()))
-				.andExpect(status().is(testParameters.getExpectedStatus())).andExpect(content().json(testParameters.getExpectedResponse().toString()));
+	private void sendRequest(Scenario scenario) throws Exception {
+		mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get(scenario.getUrl())
+				.contentType(MediaType.APPLICATION_JSON).content(scenario.getRequest().toString()))
+				.andExpect(status().is(scenario.getExpectedStatus())).andExpect(content().json(scenario.getExpectedResponse().toString()));
 	}
 
-	private void createWireMocks(TestParameters testParameters) {
+	private void createWireMocks(Scenario scenario) {
 		
-		testParameters.getMocks().forEach(mock -> {
+		scenario.getMocks().forEach(mock -> {
 			stubFor(get(mock.getUrl()).withHost(WireMock.equalTo("localhost"))
 					.willReturn(aResponse().withBody(mock.getResponse().toString())
 							.withHeader("Content-Type", "application/json").withStatus(200)));
 		});
 	}
 
-	private TestParameters createTestParameters(String testFileName)
+	private Scenario createScenario(String testFileName)
 			throws IOException, JsonProcessingException, JsonMappingException {
 		
-		TestParameters testParameters = objectMapper.readValue(createTestParametersJsonStringFromFile(testFileName), TestParameters.class);
-		return testParameters;
+		Scenario scenario = objectMapper.readValue(createScenarioJsonStringFromFile("scenarios/" + testFileName), Scenario.class);
+		return scenario;
 		
 	}
 
-	private String createTestParametersJsonStringFromFile(String testFileName) throws IOException {
+	private String createScenarioJsonStringFromFile(String testFileName) throws IOException {
 		URL url = classLoader.getResource(testFileName);
 		String str = Files.readString(Path.of(url.getPath()));
 		return str;

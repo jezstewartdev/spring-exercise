@@ -1,4 +1,4 @@
-package com.github.jezstewartdev.springexercise.pojo;
+package com.github.jezstewartdev.springexercise.scenario;
 
 import com.fasterxml.jackson.databind.JsonNode;
 

@@ -1,4 +1,4 @@
-package com.github.jezstewartdev.springexercise.pojo;
+package com.github.jezstewartdev.springexercise.scenario;
 
 import java.util.ArrayList;
 
@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Data;
 
 @Data
-public class TestParameters{
+public class Scenario{
 	public String url;
 	public int expectedStatus;
 	public JsonNode request;
