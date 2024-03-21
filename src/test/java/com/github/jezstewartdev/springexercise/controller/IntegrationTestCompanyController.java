@@ -32,7 +32,7 @@ import com.github.tomakehurst.wiremock.junit5.WireMockTest;
 @ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
-@WireMockTest(httpPort = 8093)
+@WireMockTest(httpPort = 8080)
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 class IntegrationTestCompanyController {
 
@@ -100,8 +100,8 @@ class IntegrationTestCompanyController {
 
 	private void sendRequest(Scenario scenario) throws Exception {
 		mvc.perform(org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get(scenario.getUrl())
-				.contentType(MediaType.APPLICATION_JSON).content(scenario.getRequest().toString()))
-				.andExpect(status().is(scenario.getExpectedStatus())).andExpect(content().json(scenario.getExpectedResponse().toString()));
+				.contentType(MediaType.APPLICATION_JSON).content(scenario.getRequestJsonNode().toString()))
+				.andExpect(status().is(scenario.getExpectedStatus())).andExpect(content().json(scenario.getExpectedResponseJsonNode().toString()));
 	}
 
 	private void createWireMocks(Scenario scenario) {

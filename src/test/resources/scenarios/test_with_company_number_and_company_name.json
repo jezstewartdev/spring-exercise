@@ -1,11 +1,11 @@
 {
 	"url": "/companies",
 	"expectedStatus": 200,
-	"request": {
+	"requestJsonNode": {
 		"companyNumber": "87654321",
 		"companyName": "AMAZON.COM"
 	},
-	"expectedResponse": {
+	"expectedResponseJsonNode": {
 		"total_results": 1,
 		"items": [
 			{

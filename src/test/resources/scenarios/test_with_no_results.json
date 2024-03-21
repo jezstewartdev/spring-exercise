@@ -1,10 +1,10 @@
 {
 	"url": "/companies",
 	"expectedStatus": 200,
-	"request": {
+	"requestJsonNode": {
 		"companyNumber": "23456789"
 	},
-	"expectedResponse": {
+	"expectedResponseJsonNode": {
 		"total_results": 0
 	},
 	"mocks": [

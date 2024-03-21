@@ -82,7 +82,6 @@ public class CompanyServiceImpl implements CompanyService {
 	private Company createCompanyEntity(CompanyDto companyDto) {
 		Company companyEntity = modelMapper.map(companyDto, Company.class);
 		companyEntity.getOfficers().forEach(officer -> officer.setCompany(createForeignKey(companyDto)));
-		System.out.println(companyEntity.toString());
 		return companyEntity;
 	}
 

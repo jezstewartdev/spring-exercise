@@ -1,9 +1,9 @@
 {
 	"url": "/companies",
 	"expectedStatus": 422,
-	"request": {
+	"requestJsonNode": {
 	},
-	"expectedResponse": {
+	"expectedResponseJsonNode": {
 		"error":"Either companyNumber or companyName must be populated"
 	},
 	"mocks": []
