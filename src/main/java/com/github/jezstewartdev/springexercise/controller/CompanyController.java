@@ -5,6 +5,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.jezstewartdev.springexercise.dto.CompanyLookupRequest;
@@ -20,11 +21,11 @@ public class CompanyController {
 	CompanyService service;
 	
 	@GetMapping()
-	public CompanyLookupResponse getCompanies(@RequestBody CompanyLookupRequest request) {
+	public CompanyLookupResponse getCompanies(@RequestBody CompanyLookupRequest request, @RequestParam(value="onlyActive", required=false) boolean onlyActive) {
 	    if (!StringUtils.hasLength(request.getCompanyNumber()) && !StringUtils.hasLength(request.getCompanyName())) {
 	    	throw new ValidationException("Either companyNumber or companyName must be populated");
 	    }
-		return service.getCompanies(request);
+		return onlyActive ? service.getActiveCompanies(request) : service.getCompanies(request);
 	}
 
 }

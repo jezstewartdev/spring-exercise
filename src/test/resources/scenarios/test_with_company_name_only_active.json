@@ -1,0 +1,280 @@
+{
+	"url": "/companies?onlyActive=true",
+	"expectedStatus": 200,
+	"requestJsonNode": {
+		"companyName": "amazon.com"
+	},
+	"expectedResponseJsonNode": {
+		"total_results": 1,
+		"items": [
+			{
+				"company_number": "02984945",
+				"company_type": "ltd",
+				"title": "AMAZON COMMUNICATIONS LIMITED",
+				"company_status": "active",
+				"date_of_creation": "1994-10-31",
+				"address": {
+					"locality": "Knebworth",
+					"postal_code": "SG3 6NP",
+					"premises": "9",
+					"address_line_1": "Oakfields Avenue"
+				},
+				"officers": [
+					{
+						"name": "PHILPS-TATE, Duncan Edward",
+						"officer_role": "secretary",
+						"appointed_on": "1994-10-31",
+						"address": {
+							"locality": "Knebworth",
+							"postal_code": "SG3 6NP",
+							"premises": "9",
+							"address_line_1": "Oakfields Avenue",
+							"country": "England"
+						}
+					},
+					{
+						"name": "PHILPS-TATE, Duncan Edward",
+						"officer_role": "director",
+						"appointed_on": "1994-10-31",
+						"address": {
+							"locality": "Knebworth",
+							"postal_code": "SG3 6NP",
+							"premises": "9",
+							"address_line_1": "Oakfields Avenue",
+							"country": "England"
+						}
+					},
+					{
+						"name": "PHILPS-TATE, Vivien Mary",
+						"officer_role": "director",
+						"appointed_on": "1994-10-31",
+						"address": {
+							"locality": "Knebworth",
+							"postal_code": "SG3 6NP",
+							"premises": "9",
+							"address_line_1": "Oakfields Avenue",
+							"country": "England"
+						}
+					}
+				]
+			}
+		]
+	},
+	"mocks": [
+		{
+			"url": "/TruProxyAPI/rest/Companies/v1/Search?Query=amazon.com",
+			"response": {
+				"page_number": 1,
+				"kind": "search#companies",
+				"total_results": 2,
+				"items": [
+					{
+						"company_status": "dissolved",
+						"address_snippet": "20-22 Wenlock Road, London, England, N1 7GU",
+						"date_of_creation": "2020-06-04",
+						"description": "12645730 - Incorporated on  4 June 2020",
+						"links": {
+							"self": "/company/12645730"
+						},
+						"company_number": "12645730",
+						"title": "BLUE STAR GLAVEN.COM LTD",
+						"company_type": "ltd",
+						"address": {
+							"premises": "20-22",
+							"postal_code": "N1 7GU",
+							"country": "England",
+							"locality": "London",
+							"address_line_1": "Wenlock Road"
+						},
+						"kind": "searchresults#company",
+						"description_identifier": [
+							"incorporated-on"
+						]
+					},
+					{
+						"company_status": "active",
+						"address_snippet": "9 Oakfields Avenue, Knebworth, Hertfordshire, SG3 6NP",
+						"date_of_creation": "1994-10-31",
+						"description": "02984945 - Incorporated on 31 October 1994",
+						"links": {
+							"self": "/company/02984945"
+						},
+						"company_number": "02984945",
+						"title": "AMAZON COMMUNICATIONS LIMITED",
+						"company_type": "ltd",
+						"address": {
+							"premises": "9",
+							"postal_code": "SG3 6NP",
+							"locality": "Knebworth",
+							"region": "Hertfordshire",
+							"address_line_1": "Oakfields Avenue"
+						},
+						"kind": "searchresults#company",
+						"description_identifier": [
+							"incorporated-on"
+						]
+					}
+				]
+			}
+		},
+		{
+			"url": "/TruProxyAPI/rest/Companies/v1/Officers?CompanyNumber=12645730",
+			"response": {
+				"etag": "4cd90709441f055e4310e4d46bc16a494b0171fa",
+				"links": {
+					"self": "/company/12645730/officers"
+				},
+				"kind": "officer-list",
+				"items_per_page": 35,
+				"items": [
+					{
+						"address": {
+							"premises": "20-22",
+							"postal_code": "N1 7GU",
+							"country": "England",
+							"locality": "London",
+							"address_line_1": "Wenlock Road"
+						},
+						"name": "MUGOVA, Godfrey",
+						"appointed_on": "2020-06-04",
+						"officer_role": "director",
+						"links": {
+							"officer": {
+								"appointments": "/officers/yD3ws4eulHP4EGPjZxDIU_h5Doo/appointments"
+							}
+						},
+						"date_of_birth": {
+							"month": 3,
+							"year": 1957
+						},
+						"occupation": "Director",
+						"country_of_residence": "United Kingdom",
+						"nationality": "Zimbabwean"
+					}
+				],
+				"active_count": 1,
+				"total_results": 1
+			}
+		},
+		{
+			"url": "/TruProxyAPI/rest/Companies/v1/Officers?CompanyNumber=02984945",
+			"response": {
+				"etag": "5a922fc71750df1742d98fdb140d0abe4fc6ba60",
+				"links": {
+					"self": "/company/02984945/officers"
+				},
+				"kind": "officer-list",
+				"items_per_page": 35,
+				"items": [
+					{
+						"address": {
+							"premises": "9",
+							"postal_code": "SG3 6NP",
+							"country": "England",
+							"locality": "Knebworth",
+							"region": "Hertfordshire",
+							"address_line_1": "Oakfields Avenue"
+						},
+						"name": "PHILPS-TATE, Duncan Edward",
+						"appointed_on": "1994-10-31",
+						"officer_role": "secretary",
+						"links": {
+							"officer": {
+								"appointments": "/officers/LLL7JNuW33v63QblvCZJeNFQxoA/appointments"
+							}
+						},
+						"occupation": "Accountant",
+						"nationality": "British"
+					},
+					{
+						"address": {
+							"premises": "9",
+							"postal_code": "SG3 6NP",
+							"country": "England",
+							"locality": "Knebworth",
+							"region": "Hertfordshire",
+							"address_line_1": "Oakfields Avenue"
+						},
+						"name": "PHILPS-TATE, Duncan Edward",
+						"appointed_on": "1994-10-31",
+						"officer_role": "director",
+						"links": {
+							"officer": {
+								"appointments": "/officers/LLL7JNuW33v63QblvCZJeNFQxoA/appointments"
+							}
+						},
+						"date_of_birth": {
+							"month": 1,
+							"year": 1955
+						},
+						"occupation": "Accountant",
+						"country_of_residence": "England",
+						"nationality": "British"
+					},
+					{
+						"address": {
+							"premises": "9",
+							"postal_code": "SG3 6NP",
+							"country": "England",
+							"locality": "Knebworth",
+							"region": "Hertfordshire",
+							"address_line_1": "Oakfields Avenue"
+						},
+						"name": "PHILPS-TATE, Vivien Mary",
+						"appointed_on": "1994-10-31",
+						"officer_role": "director",
+						"links": {
+							"officer": {
+								"appointments": "/officers/ypEaxLrBrXw5psw_yfSSYeGsK-M/appointments"
+							}
+						},
+						"date_of_birth": {
+							"month": 1,
+							"year": 1953
+						},
+						"occupation": "Management Consultant",
+						"country_of_residence": "England",
+						"nationality": "British"
+					},
+					{
+						"address": {
+							"postal_code": "E2 8DD",
+							"locality": "London",
+							"address_line_1": "9 Perseverance Works",
+							"address_line_2": "Kingsland Road"
+						},
+						"name": "SAME-DAY COMPANY SERVICES LIMITED",
+						"appointed_on": "1994-10-31",
+						"officer_role": "corporate-nominee-secretary",
+						"links": {
+							"officer": {
+								"appointments": "/officers/vjB7pCUJiU4iQK_YS33d81MZ8Z0/appointments"
+							}
+						},
+						"resigned_on": "1994-10-31"
+					},
+					{
+						"address": {
+							"postal_code": "E2 8DD",
+							"locality": "London",
+							"address_line_1": "9 Perseverance Works",
+							"address_line_2": "Kingsland Road"
+						},
+						"name": "WILDMAN & BATTELL LIMITED",
+						"appointed_on": "1994-10-31",
+						"officer_role": "corporate-nominee-director",
+						"links": {
+							"officer": {
+								"appointments": "/officers/wTGBN0TanvpQf7GHmjs8klJngDY/appointments"
+							}
+						},
+						"resigned_on": "1994-10-31"
+					}
+				],
+				"active_count": 3,
+				"total_results": 5,
+				"resigned_count": 2
+			}
+		}
+	]
+}

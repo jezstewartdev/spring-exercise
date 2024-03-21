@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class CompanyServiceImpl implements CompanyService {
 
 	@Value("${api.company.officers.url}")
 	private String companyOfficersUrl;
-	
+
 	private ModelMapper modelMapper = new ModelMapper();
 
 	@Autowired
@@ -48,27 +49,40 @@ public class CompanyServiceImpl implements CompanyService {
 	private HttpEntity<String> httpEntity;
 
 	@Override
+	public CompanyLookupResponse getActiveCompanies(CompanyLookupRequest request) {
+		
+		CompanyLookupResponse response = getCompanies(request);
+		List<CompanyDto> activeCompanies = response.getItems().stream().
+				filter(company -> (company.getCompany_status()).equals("active")).collect(Collectors.toList());
+		response.setItems(activeCompanies);
+		response.setTotal_results(response.getItems().size());
+		return response;
+	}
+
+	@Override
 	public CompanyLookupResponse getCompanies(CompanyLookupRequest request) {
+
+		Optional<Company> company = Optional.empty();
+		CompanyLookupResponse response = new CompanyLookupResponse();
 
 		String searchTerm = StringUtils.hasLength(request.getCompanyNumber()) ? request.getCompanyNumber()
 				: request.getCompanyName();
 
 		if (StringUtils.hasLength(request.getCompanyNumber())) {
-			Optional<Company> company = companyRepository.findById(request.getCompanyNumber());
-			if (company.isPresent()) {
-				return createCompanyLookupResponseFromEntity(company.get());
-			}
+			company = companyRepository.findById(request.getCompanyNumber());
 		}
 
-		CompanyLookupResponse response = getCompanyLookupResponseFromApi(searchTerm);
-
-		if (response.getItems() != null) {
-			for (CompanyDto companyDto : response.getItems()) {
-				companyDto.setOfficers(getOfficersFromApi(companyDto.getCompany_number()));
-				companyRepository.save(createCompanyEntity(companyDto));
+		if (company.isPresent()) {
+			response = createCompanyLookupResponseFromEntity(company.get());
+		} else {
+			response = getCompanyLookupResponseFromApi(searchTerm);
+			if (response.getItems() != null) {
+				for (CompanyDto companyDto : response.getItems()) {
+					companyDto.setOfficers(getOfficersFromApi(companyDto.getCompany_number()));
+					companyRepository.save(createCompanyEntity(companyDto));
+				}
 			}
 		}
-
 		return response;
 	}
 
@@ -109,5 +123,5 @@ public class CompanyServiceImpl implements CompanyService {
 		}
 		return officers;
 	}
-
+	
 }

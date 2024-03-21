@@ -10,6 +10,8 @@ public interface CompanyService {
 
 	public CompanyLookupResponse getCompanies(CompanyLookupRequest request);
 
+	public CompanyLookupResponse getActiveCompanies(CompanyLookupRequest request);
+
 }
 
 

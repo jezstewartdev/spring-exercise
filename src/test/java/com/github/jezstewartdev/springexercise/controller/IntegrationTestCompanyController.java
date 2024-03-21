@@ -87,6 +87,13 @@ class IntegrationTestCompanyController {
 		performTest("test_with_no_results.json");
 		
 	}
+	
+	@Test
+	void requestWithAllActiveFlagSetOnlyReturnsActiveCompanies() throws Exception {
+
+		performTest("test_with_company_name_only_active.json");
+		
+	}
 
 	private void performTest(String testFileName) throws IOException, JsonProcessingException, JsonMappingException, Exception {
 		
